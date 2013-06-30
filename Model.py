@@ -44,7 +44,7 @@ class Country(Base):
 		self.market = market
 		self.living_costs_per_month = living_costs_per_month
 	def __repr__(self):
-		return "<Counrty({0} {1} {2} {3})>" % (self.code, self.name,self.market,self.living_costs_per_month)
+		return "<Counrty({0} {1} {2} {3})>".format(self.code, self.name,self.market,self.living_costs_per_month)
 
 
 class University(Base):
@@ -73,5 +73,5 @@ class University(Base):
 		self.website = website
 
 	def __repr__(self):
-		return "<University({0} {1} {2} {3} {4} {5} {6})>" % (self.global_rank, self.local_rank, self.city,
+		return "<University({0} {1} {2} {3} {4} {5} {6})>".format(self.global_rank, self.local_rank, self.city,
 			self.student_support,self.housing,self.adminstration_contact, self.website)
