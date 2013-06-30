@@ -2,6 +2,7 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 
 #TODO change string format in __repr__ to proper ones other than %s or the new format function
+# Boom Boom
 
 '''Creating the Base class, tables will allways inhirit this base class'''
 Base = declarative_base()
