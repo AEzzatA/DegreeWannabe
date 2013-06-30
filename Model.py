@@ -75,3 +75,71 @@ class University(Base):
 	def __repr__(self):
 		return "<University({0} {1} {2} {3} {4} {5} {6})>".format(self.global_rank, self.local_rank, self.city,
 			self.student_support,self.housing,self.adminstration_contact, self.website)
+
+class Faculty(Base):
+	'''Faculties accross the universities'''
+	__tablename__ = 'faculty'
+	id = Column(Integer, primary_key=True)
+	name = Column(String(30))
+	school = Column(String(30))
+	requirements = Column(Text)
+	website = Column(String(512))
+
+	def __init__(self, name, school,requirements, website):
+		self.name = name
+		self.school = school
+		self.requirements = requirements
+		self.website = website
+
+	def __repr__(self):
+		return "<Faculty({0} {1} {2} {3})>".format(self.name, self.school,
+			self.requirementsself.website)
+
+class Sections(Base):
+	'''Sections in every faculty, Majors?'''
+
+	__tablename__ = 'sections'
+
+	id = Column(Integer, primary_key=True)
+	name = Column(String(50))
+	requirements = Column(Text)
+	test_scores = Column(String(512)) #Some sections reqire specifi test scores you already got
+
+	def __init__(self, name, requirements, test_scores):
+		self.name = name
+		self.requirements = requirements
+		self.test_scores = test_scores
+
+	def __repr__(self):
+		return "<Section({0} {1} {2})>".format(self.name, self.requirements,
+			self.test_scores)
+
+class Programs(Base):
+	'''Degree programs offered by University-> Faculty -> Section'''
+
+	__tablename__ = 'programs'
+
+	id = Column(Integer, primary_key=True)
+	name = Column(String(50)) #Degree name
+	language = Column(String(50)) #Degree program offered in what language
+	level = Column(String(50)) #Degree level
+	duration = Column(Integer(2)) #Degree duration in years or semesters
+	start_date = Column(Date) #Program start date
+	application_start_date = Column(Date) #When to apply
+	application_deadline = Column(Date) #Application deadline!
+
+	def __init__(self, name, language, level, duration, start_date,
+		application_start_date, application_deadline):
+
+		self.name = name
+		self.language = language
+		self.level = level
+		self.duration = duration
+		self.start_date = start_date
+		self. application_start_date = application_start_date
+		self.application_deadline = application_deadline
+
+	def __repr__(self):
+		return "<Program({0} {1} {2} {3} {4} {5} {6}".format(self.name, self.language,
+			self.level,self.duration, self.start_date, self.application_start_date,
+			self.application_deadline)
