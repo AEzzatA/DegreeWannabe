@@ -1,7 +1,8 @@
 import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 
-#TODO change string format in __repr__ to proper ones other than %s or the new format function
+#TODO: SET RELATIONS BETWEEN TABLES
+
 # Boom Boom
 
 '''Creating the Base class, tables will allways inhirit this base class'''
@@ -144,3 +145,55 @@ class Programs(Base):
 		return "<Program({0} {1} {2} {3} {4} {5} {6}".format(self.name, self.language,
 			self.level,self.duration, self.start_date, self.application_start_date,
 			self.application_deadline)
+
+class Professors(Base):
+	''' Professors in every program < faculty'''
+
+	__tablename__= 'professors'
+
+	id = Column(Integer, primary_key=True)
+	name = Column(String(512))
+	field_of_interest = Column(String(512))
+	research_field = Column(String(1024))
+
+	def __init__(self, name, field_of_interest, research_field):
+		self.name = name
+		self.field_of_interest = field_of_interest
+		self.research_field = research_field
+
+	def __repr__(self):
+		return "<Professors({0} {1} {2})>".format(self.name,
+			self.field_of_interest,self.research_field)
+
+class Fees(Base):
+	'''This class has a 1-Fees-To-Many-Programs relation. only'''
+	__tablename__ = 'fees'
+
+	id = Column(Integer, primary_key=True)
+
+	currency = Column(String(3)) #Currency sign USD/EUR...
+	amount = Column(Integer)
+
+	def __init__(self, currency, amount):
+		self.currency = currency
+		self.amount = amount
+	def __repr__(self):
+		return "<Fees({0} {1})>".format(self.currency, self.amount)
+
+class Contact(Base):
+	'''Contact information for every professor'''
+	__tablename__ = 'contact'
+
+	id = Column(Integer, primary_key=True)
+
+	email = Column(String(50))
+	telephone = Column(Integer)
+	mail = Column(String(512))
+
+	def __init__(self, email, telephone, mail):
+		self.email = email
+		self.telephone = telephone
+		self.mail = mail
+
+	def __repr__(self):
+		return "<Contact( {0} {1} {2} )".format(self.email,self.telephone,self.mail)		
