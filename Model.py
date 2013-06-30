@@ -2,6 +2,7 @@ import sqlalchemy
 from sqlalchemy.ext.declarative import declarative_base
 
 #TODO change string format in __repr__ to proper ones other than %s or the new format function
+# Boom Boom
 
 '''Creating the Base class, tables will allways inhirit this base class'''
 Base = declarative_base()
@@ -75,6 +76,7 @@ class University(Base):
 	def __repr__(self):
 		return "<University({0} {1} {2} {3} {4} {5} {6})>".format(self.global_rank, self.local_rank, self.city,
 			self.student_support,self.housing,self.adminstration_contact, self.website)
+<<<<<<< HEAD
 
 class Faculty(Base):
 	'''Faculties accross the universities'''
@@ -143,3 +145,5 @@ class Programs(Base):
 		return "<Program({0} {1} {2} {3} {4} {5} {6}".format(self.name, self.language,
 			self.level,self.duration, self.start_date, self.application_start_date,
 			self.application_deadline)
+=======
+>>>>>>> a31f1ee7b01781ef78337ff6fc9ba184fc355a59
