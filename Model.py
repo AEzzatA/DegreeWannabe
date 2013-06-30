@@ -34,7 +34,7 @@ class Country(Base):
 	
 	id = Column(Integer, primary_key= True)
 	code = Column(String(2)) #Country code like us, uk, fr ...
-	name = Coulmn(String(50))
+	name = Column(String(50))
 	market = Column(Integer(2)) #Give the market there a number between 1 and 10
 	living_costs_per_month = Column(Integer(5)) #Probably won't be accurate but it would be useful
 
@@ -57,13 +57,13 @@ class University(Base):
 	local_rank = Column(Integer(4))
 	city = Column(String(50)) #University City of location
 	address = Column(String(80))
-	student_support(Text)
+	student_support = Column(Text)
 	housing = Column(Boolean) #Does the university provide housing or not
 	adminstration_contact = Column(String(512))
 	website = Column(String(512))
 
-	def __init__(self, global_rank=None, local_rank=None, city, address = "", student_support="",housing =False,
-		adminstration_contact="", website):
+	def __init__(self, global_rank, local_rank, city, address, student_support,housing,
+		adminstration_contact, website):
 		self.global_rank= global_rank
 		self.local_rank= local_rank
 		self.city = city
