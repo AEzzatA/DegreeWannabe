@@ -24,7 +24,7 @@ class Continent(Base):
 		self.name = name
 
 	def __repr__(self):
-		return "<Continent('%s')>" % (self.name)
+		return "<Continent({0})>".format(self.name)
 
 class Country(Base):
 	''' A class that defines countries accross the world
@@ -44,7 +44,7 @@ class Country(Base):
 		self.market = market
 		self.living_costs_per_month = living_costs_per_month
 	def __repr__(self):
-		return "<Counrty('%s','%s','%s','%s')>" % (self.code, self.name,self.market,self.living_costs_per_month)
+		return "<Counrty({0} {1} {2} {3})>" % (self.code, self.name,self.market,self.living_costs_per_month)
 
 
 class University(Base):
@@ -73,6 +73,5 @@ class University(Base):
 		self.website = website
 
 	def __repr__(self):
-		return "<University('%r','%r','%r','%r','%r')>" % (self.global_rank, self.local_rank, self.city,
+		return "<University({0} {1} {2} {3} {4} {5} {6})>" % (self.global_rank, self.local_rank, self.city,
 			self.student_support,self.housing,self.adminstration_contact, self.website)
-	
