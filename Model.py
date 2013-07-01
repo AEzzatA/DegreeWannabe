@@ -11,6 +11,9 @@ Base = declarative_base()
 '''Datatypes used in this model'''
 from sqlalchemy import Column, Integer, String, Text, Date, Boolean
 
+''' Relationship primatives needed'''
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 '''Defining our Tables/Classes'''
 class Continent(Base):
@@ -20,6 +23,9 @@ class Continent(Base):
 
 	id = Column( Integer, primary_key=True )
 	name = Column(String(20))
+	country = relationship("Country") #Continent -> Country One-to-many relation
+	''' A simple useful note: A relationship function takes the Class name "The capital first letter one"
+	unlike the foreignkey function with takes the __tablename__ value "the small first letter one" '''
 
 	def __init__(self, id, name):
 		self.id = id
@@ -39,6 +45,8 @@ class Country(Base):
 	name = Column(String(50))
 	market = Column(Integer(2)) #Give the market there a number between 1 and 10
 	living_costs_per_month = Column(Integer(5)) #Probably won't be accurate but it would be useful
+	continent_id = Column(Integer, ForeignKey('continents.id')) #Continent -> Country One-to-many relation
+	universities = relationship("University")
 
 	def __init__(self, code, name, market, living_costs_per_month):
 		self. code = code
@@ -63,6 +71,9 @@ class University(Base):
 	housing = Column(Boolean) #Does the university provide housing or not
 	adminstration_contact = Column(String(512))
 	website = Column(String(512))
+	country_id = Column(Integer, ForeignKey('country.id')) #The foreignkey of countries in University table
+	faculties = relationship('Faculty')
+
 
 	def __init__(self, global_rank, local_rank, city, address, student_support,housing,
 		adminstration_contact, website):
@@ -86,6 +97,8 @@ class Faculty(Base):
 	school = Column(String(30))
 	requirements = Column(Text)
 	website = Column(String(512))
+	university_id = Column(Integer, ForeignKey('university.id'))
+	sections = relationship('Sections')
 
 	def __init__(self, name, school,requirements, website):
 		self.name = name
@@ -106,6 +119,8 @@ class Sections(Base):
 	name = Column(String(50))
 	requirements = Column(Text)
 	test_scores = Column(String(512)) #Some sections reqire specifi test scores you already got
+	faculty_id = Column(Integer, ForeignKey('faculty.id'))
+	programs = relationship('Programs')
 
 	def __init__(self, name, requirements, test_scores):
 		self.name = name
@@ -129,6 +144,10 @@ class Programs(Base):
 	start_date = Column(Date) #Program start date
 	application_start_date = Column(Date) #When to apply
 	application_deadline = Column(Date) #Application deadline!
+	section_id = Column(Integer, ForeignKey('sections.id'))
+	progrssor = relationship('Professors')
+	fees = relationship('Fees', uselist=False, backref='programs') #One-To-one Relation with fees
+
 
 	def __init__(self, name, language, level, duration, start_date,
 		application_start_date, application_deadline):
@@ -155,6 +174,8 @@ class Professors(Base):
 	name = Column(String(512))
 	field_of_interest = Column(String(512))
 	research_field = Column(String(1024))
+	section_id = Column(Integer, ForeignKey('programs.id'))
+	contact = relationship('Contact')
 
 	def __init__(self, name, field_of_interest, research_field):
 		self.name = name
@@ -173,6 +194,7 @@ class Fees(Base):
 
 	currency = Column(String(3)) #Currency sign USD/EUR...
 	amount = Column(Integer)
+	program_id = Column(Integer, ForeignKey('programs.id'))
 
 	def __init__(self, currency, amount):
 		self.currency = currency
@@ -189,6 +211,7 @@ class Contact(Base):
 	email = Column(String(50))
 	telephone = Column(Integer)
 	mail = Column(String(512))
+	professor_id = Column(Integer, ForeignKey('professors.id'))
 
 	def __init__(self, email, telephone, mail):
 		self.email = email
