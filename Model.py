@@ -41,12 +41,10 @@ class Country(Base):
 	__tablename__ = 'country'
 	
 	id = Column(Integer, primary_key= True)
-	code = Column(String(2)) #Country code like us, uk, fr ...
 	name = Column(String(50)) #Country name
-	market = Column(Integer(2)) #Give the market there a number between 1 and 10
-	living_costs_per_month = Column(Integer(5)) #Probably won't be accurate but it would be useful
 	continent_id = Column(Integer, ForeignKey('continents.id')) #Continent -> Country One-to-many relation
 	universities = relationship("University")
+	country_metadata = relationship('CountryMetadata')
 
 	def __init__(self, code, name, market, living_costs_per_month):
 		self. code = code
@@ -55,6 +53,23 @@ class Country(Base):
 		self.living_costs_per_month = living_costs_per_month
 	def __repr__(self):
 		return "<Counrty( {0} {1} {2} {3} )>".format(self.code, self.name,self.market,self.living_costs_per_month)
+
+class CountryMetadata(Base):
+	'''A Useful table to semplify the Country table for getting the metadata information'''
+	__tablename__ = 'countryMetadata'
+
+	id = Column(Integer, primary_key=True)
+	code = Column(String(2)) #Country Code like fr, uk, us..
+	market = Column(Integer)
+	living_costs_per_month = Column(Integer) #In USD
+	country_id = Column(Integer, ForeignKey('country.id'))
+
+	def __init__(self, code, market, living_costs_per_month):
+		self.code = code
+		self.market = market
+		self.living_costs_per_month = living_costs_per_month
+	def __repr__(self):
+		return "<CountryMetadata( {0} {1} {2} )>".format(self.code,self.market,self.living_costs_per_month)
 
 
 class University(Base):
