@@ -71,7 +71,7 @@ class CountryMetadata(Base):
 
 
 class University(Base):
-	''''''
+	'''University(Name, City,Address,Website)'''
 	__tablename__ = 'university'
 
 	id = Column(Integer, primary_key=True)
@@ -81,6 +81,7 @@ class University(Base):
 	website = Column(String(512))
 	country_id = Column(Integer, ForeignKey('country.id')) #The foreignkey of countries in University table
 	faculties = relationship('Faculty')
+	advgs = relationship('Advantages')
 
 
 	def __init__(self, name, city, address, student_support, adminstration_contact, website):
@@ -94,6 +95,7 @@ class University(Base):
 		return "<University( {0} {1} {2} {3} )>".format(self.name, self.city, self.address, self.website)
 
 class Advantages(Base):
+	'''Advantages(GlobalRank, LocalRank,Housing,StudentSupport)'''
 
 	__tablename__ = 'advantage'
 
@@ -102,6 +104,7 @@ class Advantages(Base):
 	local_rank = Column(Integer)
 	housing = Column(Boolean)
 	student_support = Column(Text)
+	university_id = Column(Integer, ForeignKey('university.id'))
 
 	def __init__(self, global_rank, local_rank, housing, student_support):
 		self.global_rank = global_rank
@@ -112,7 +115,7 @@ class Advantages(Base):
 		return "<Advantages( {0} {1} {2} )>".format(self.global_rank, self.local_rank, self.housing)
 
 class Faculty(Base):
-	'''Faculties inside each university'''
+	'''Faculty(Name,School,Requirements,Website)'''
 	__tablename__ = 'faculty'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(30))
@@ -133,7 +136,7 @@ class Faculty(Base):
 			self.requirementsself.website)
 
 class Sections(Base):
-	'''Sections in every faculty, Majors?'''
+	'''Sections(Name,Requirements,TestScores)'''
 
 	__tablename__ = 'sections'
 
@@ -154,8 +157,7 @@ class Sections(Base):
 			self.test_scores)
 
 class Programs(Base):
-	'''Degree programs offered by University-> Faculty -> Section
-	Keep in mind that the Programs has One-To-one relation withthe Fees table'''
+	'''Programs(Name,Language,Level, Duration, StartDate, ApplicationStartDate,ApplicationDeadline)'''
 
 	__tablename__ = 'programs'
 
@@ -189,20 +191,18 @@ class Programs(Base):
 			self.application_deadline)
 
 class Professors(Base):
-	''' Professors in every program < faculty'''
+	''' Professors(Name,ResearchField)'''
 
 	__tablename__= 'professors'
 
 	id = Column(Integer, primary_key=True)
 	name = Column(String(512))
-	field_of_interest = Column(String(512))
 	research_field = Column(String(1024))
 	section_id = Column(Integer, ForeignKey('programs.id'))
 	contact = relationship('Contact')
 
 	def __init__(self, name, field_of_interest, research_field):
 		self.name = name
-		self.field_of_interest = field_of_interest
 		self.research_field = research_field
 
 	def __repr__(self):
@@ -210,7 +210,7 @@ class Professors(Base):
 			self.field_of_interest,self.research_field)
 
 class Fees(Base):
-	'''This class has a 1-Fees-To-Many-Programs relation. only'''
+	'''Fees(Currency,Amount)'''
 	__tablename__ = 'fees'
 
 	id = Column(Integer, primary_key=True)
@@ -226,7 +226,7 @@ class Fees(Base):
 		return "<Fees( {0} {1} )>".format(self.currency, self.amount)
 
 class Contact(Base):
-	'''Contact information for every professor'''
+	'''Contact(Email,Telephone, Mail)'''
 	__tablename__ = 'contact'
 
 	id = Column(Integer, primary_key=True)
