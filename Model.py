@@ -5,7 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 # Boom Boom
 
-'''Creating the Base class, tables will allways inhirit this base class'''
+'''Creating the Base class, tables will allways inherit this base class'''
 Base = declarative_base()
 
 '''Datatypes used in this model'''
@@ -24,15 +24,16 @@ class Continent(Base):
 	id = Column( Integer, primary_key=True )
 	name = Column(String(20))
 	country = relationship("Country") #Continent -> Country One-to-many relation
-	''' A simple useful note: A relationship function takes the Class name "The capital first letter one"
-	unlike the foreignkey function with takes the __tablename__ value "the small first letter one" '''
+	'''note: A relationship function takes the Class name "The capital first letter one"
+	unlike the foreignkey function which takes the __tablename__ value 
+	"the small first letter one" '''
 
 	def __init__(self, id, name):
 		self.id = id
 		self.name = name
 
 	def __repr__(self):
-		return "<Continent({0})>".format(self.name)
+		return "<Continent( {0} )>".format(self.name)
 
 class Country(Base):
 	''' A class that defines countries accross the world
@@ -42,7 +43,7 @@ class Country(Base):
 	
 	id = Column(Integer, primary_key= True)
 	code = Column(String(2)) #Country code like us, uk, fr ...
-	name = Column(String(50))
+	name = Column(String(50)) #Country name
 	market = Column(Integer(2)) #Give the market there a number between 1 and 10
 	living_costs_per_month = Column(Integer(5)) #Probably won't be accurate but it would be useful
 	continent_id = Column(Integer, ForeignKey('continents.id')) #Continent -> Country One-to-many relation
@@ -54,7 +55,7 @@ class Country(Base):
 		self.market = market
 		self.living_costs_per_month = living_costs_per_month
 	def __repr__(self):
-		return "<Counrty({0} {1} {2} {3})>".format(self.code, self.name,self.market,self.living_costs_per_month)
+		return "<Counrty( {0} {1} {2} {3} )>".format(self.code, self.name,self.market,self.living_costs_per_month)
 
 
 class University(Base):
@@ -86,11 +87,11 @@ class University(Base):
 		self.website = website
 
 	def __repr__(self):
-		return "<University({0} {1} {2} {3} {4} {5} {6})>".format(self.global_rank, self.local_rank, self.city,
+		return "<University( {0} {1} {2} {3} {4} {5} {6} )>".format(self.global_rank, self.local_rank, self.city,
 			self.student_support,self.housing,self.adminstration_contact, self.website)
 
 class Faculty(Base):
-	'''Faculties accross the universities'''
+	'''Faculties inside each university'''
 	__tablename__ = 'faculty'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(30))
@@ -107,7 +108,7 @@ class Faculty(Base):
 		self.website = website
 
 	def __repr__(self):
-		return "<Faculty({0} {1} {2} {3})>".format(self.name, self.school,
+		return "<Faculty( {0} {1} {2} {3} )>".format(self.name, self.school,
 			self.requirementsself.website)
 
 class Sections(Base):
@@ -128,11 +129,12 @@ class Sections(Base):
 		self.test_scores = test_scores
 
 	def __repr__(self):
-		return "<Section({0} {1} {2})>".format(self.name, self.requirements,
+		return "<Section( {0} {1} {2} )>".format(self.name, self.requirements,
 			self.test_scores)
 
 class Programs(Base):
-	'''Degree programs offered by University-> Faculty -> Section'''
+	'''Degree programs offered by University-> Faculty -> Section
+	Keep in mind that the Programs has One-To-one relation withthe Fees table'''
 
 	__tablename__ = 'programs'
 
@@ -161,7 +163,7 @@ class Programs(Base):
 		self.application_deadline = application_deadline
 
 	def __repr__(self):
-		return "<Program({0} {1} {2} {3} {4} {5} {6}".format(self.name, self.language,
+		return "<Program( {0} {1} {2} {3} {4} {5} {6} )>".format(self.name, self.language,
 			self.level,self.duration, self.start_date, self.application_start_date,
 			self.application_deadline)
 
@@ -183,7 +185,7 @@ class Professors(Base):
 		self.research_field = research_field
 
 	def __repr__(self):
-		return "<Professors({0} {1} {2})>".format(self.name,
+		return "<Professors( {0} {1} {2} )>".format(self.name,
 			self.field_of_interest,self.research_field)
 
 class Fees(Base):
@@ -200,7 +202,7 @@ class Fees(Base):
 		self.currency = currency
 		self.amount = amount
 	def __repr__(self):
-		return "<Fees({0} {1})>".format(self.currency, self.amount)
+		return "<Fees( {0} {1} )>".format(self.currency, self.amount)
 
 class Contact(Base):
 	'''Contact information for every professor'''
@@ -219,4 +221,4 @@ class Contact(Base):
 		self.mail = mail
 
 	def __repr__(self):
-		return "<Contact( {0} {1} {2} )".format(self.email,self.telephone,self.mail)		
+		return "<Contact( {0} {1} {2} )>".format(self.email,self.telephone,self.mail)		
