@@ -28,8 +28,7 @@ class Continent(Base):
 	unlike the foreignkey function which takes the __tablename__ value 
 	"the small first letter one" '''
 
-	def __init__(self, id, name):
-		self.id = id
+	def __init__(self, name):
 		self.name = name
 
 	def __repr__(self):
