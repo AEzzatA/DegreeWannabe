@@ -17,8 +17,8 @@ from sqlalchemy.orm import relationship, backref
 
 '''Every class defines a table in SQL'''
 class Continent(Base):
-	'''takes Continent(Continent.name)
-	has country as a FK'''
+	'''Continent(Name)
+	country is a FK'''
 	__tablename__ = "continents"
 
 	id = Column( Integer, primary_key=True )
@@ -35,7 +35,8 @@ class Continent(Base):
 		return "<Continent( {0} )>".format(self.name)
 
 class Country(Base):
-	'''takes Country(Name)'''
+	'''takes Country(Name)
+	universities / country_metadata is a FK'''
 
 	__tablename__ = 'country'
 	
@@ -52,7 +53,7 @@ class Country(Base):
 		return "<Counrty( {0} )>".format(self.name)
 
 class CountryMetadata(Base):
-	'''takes CountryMetadata(Code, Market,LivinCostsPerMonth)
+	'''CountryMetadata(Code, Market,LivinCostsPerMonth)
 	country_id is a FK'''
 	__tablename__ = 'countryMetadata'
 
@@ -71,7 +72,8 @@ class CountryMetadata(Base):
 
 
 class University(Base):
-	'''University(Name, City,Address,Website)'''
+	'''University(Name, City,Address,Website)
+	faculties is a FK'''
 	__tablename__ = 'university'
 
 	id = Column(Integer, primary_key=True)
@@ -95,7 +97,8 @@ class University(Base):
 		return "<University( {0} {1} {2} {3} )>".format(self.name, self.city, self.address, self.website)
 
 class Advantages(Base):
-	'''Advantages(GlobalRank, LocalRank,Housing,StudentSupport)'''
+	'''Advantages(GlobalRank, LocalRank,Housing,StudentSupport)
+	university_id is a FK'''
 
 	__tablename__ = 'advantage'
 
@@ -115,7 +118,8 @@ class Advantages(Base):
 		return "<Advantages( {0} {1} {2} )>".format(self.global_rank, self.local_rank, self.housing)
 
 class Faculty(Base):
-	'''Faculty(Name,School,Requirements,Website)'''
+	'''Faculty(Name,School,Requirements,Website)
+	sections is a FK '''
 	__tablename__ = 'faculty'
 	id = Column(Integer, primary_key=True)
 	name = Column(String(30))
@@ -136,7 +140,8 @@ class Faculty(Base):
 			self.requirementsself.website)
 
 class Sections(Base):
-	'''Sections(Name,Requirements,TestScores)'''
+	'''Sections(Name,Requirements,TestScores)
+	programs is a FK'''
 
 	__tablename__ = 'sections'
 
@@ -157,7 +162,8 @@ class Sections(Base):
 			self.test_scores)
 
 class Programs(Base):
-	'''Programs(Name,Language,Level, Duration, StartDate, ApplicationStartDate,ApplicationDeadline)'''
+	'''Programs(Name,Language,Level, Duration, StartDate, ApplicationStartDate,ApplicationDeadline)
+	fees / professors is a FK'''
 
 	__tablename__ = 'programs'
 
@@ -170,7 +176,7 @@ class Programs(Base):
 	application_start_date = Column(Date) #When to apply
 	application_deadline = Column(Date) #Application deadline!
 	section_id = Column(Integer, ForeignKey('sections.id'))
-	progrssor = relationship('Professors')
+	professors = relationship('Professors')
 	fees = relationship('Fees', uselist=False, backref='programs') #One-To-one Relation with fees
 
 
@@ -191,7 +197,8 @@ class Programs(Base):
 			self.application_deadline)
 
 class Professors(Base):
-	''' Professors(Name,ResearchField)'''
+	''' Professors(Name,ResearchField)
+	contact is a FK'''
 
 	__tablename__= 'professors'
 
@@ -210,7 +217,8 @@ class Professors(Base):
 			self.field_of_interest,self.research_field)
 
 class Fees(Base):
-	'''Fees(Currency,Amount)'''
+	'''Fees(Currency,Amount)
+	program_id is a FK'''
 	__tablename__ = 'fees'
 
 	id = Column(Integer, primary_key=True)
@@ -226,7 +234,8 @@ class Fees(Base):
 		return "<Fees( {0} {1} )>".format(self.currency, self.amount)
 
 class Contact(Base):
-	'''Contact(Email,Telephone, Mail)'''
+	'''Contact(Email,Telephone, Mail)
+	profes is a FK'''
 	__tablename__ = 'contact'
 
 	id = Column(Integer, primary_key=True)
