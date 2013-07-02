@@ -15,10 +15,10 @@ from sqlalchemy import Column, Integer, String, Text, Date, Boolean
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
 
-'''Defining our Tables/Classes'''
+'''Every class defines a table in SQL'''
 class Continent(Base):
-	'''This class defines the continents of earth, it was made to make it possible
-	for users to search universities by continent'''
+	'''takes Continent(Continent.name)
+	has country as a FK'''
 	__tablename__ = "continents"
 
 	id = Column( Integer, primary_key=True )
@@ -35,8 +35,7 @@ class Continent(Base):
 		return "<Continent( {0} )>".format(self.name)
 
 class Country(Base):
-	''' A class that defines countries accross the world
-	It takes the following code, name, market, living_costs_per_month'''
+	'''takes Country(Name)'''
 
 	__tablename__ = 'country'
 	
@@ -46,16 +45,15 @@ class Country(Base):
 	universities = relationship("University")
 	country_metadata = relationship('CountryMetadata')
 
-	def __init__(self, code, name, market, living_costs_per_month):
-		self. code = code
+	def __init__(self, name):
 		self.name = name
-		self.market = market
-		self.living_costs_per_month = living_costs_per_month
+
 	def __repr__(self):
-		return "<Counrty( {0} {1} {2} {3} )>".format(self.code, self.name,self.market,self.living_costs_per_month)
+		return "<Counrty( {0} )>".format(self.name)
 
 class CountryMetadata(Base):
-	'''A Useful table to semplify the Country table for getting the metadata information'''
+	'''takes CountryMetadata(Code, Market,LivinCostsPerMonth)
+	country_id is a FK'''
 	__tablename__ = 'countryMetadata'
 
 	id = Column(Integer, primary_key=True)
@@ -73,36 +71,45 @@ class CountryMetadata(Base):
 
 
 class University(Base):
-	'''A class defines universities.
-	It takes the following: '''
+	''''''
 	__tablename__ = 'university'
 
 	id = Column(Integer, primary_key=True)
-	global_rank = Column(Integer(5))
-	local_rank = Column(Integer(4))
+	name = Column(String(100))
 	city = Column(String(50)) #University City of location
 	address = Column(String(80))
-	student_support = Column(Text)
-	housing = Column(Boolean) #Does the university provide housing or not
-	adminstration_contact = Column(String(512))
 	website = Column(String(512))
 	country_id = Column(Integer, ForeignKey('country.id')) #The foreignkey of countries in University table
 	faculties = relationship('Faculty')
 
 
-	def __init__(self, global_rank, local_rank, city, address, student_support,housing,
-		adminstration_contact, website):
-		self.global_rank= global_rank
-		self.local_rank= local_rank
+	def __init__(self, name, city, address, student_support, adminstration_contact, website):
+		self.name = name
 		self.city = city
 		self.student_support = student_support
-		self.housing = housing
 		self.adminstration_contact = adminstration_contact
 		self.website = website
 
 	def __repr__(self):
-		return "<University( {0} {1} {2} {3} {4} {5} {6} )>".format(self.global_rank, self.local_rank, self.city,
-			self.student_support,self.housing,self.adminstration_contact, self.website)
+		return "<University( {0} {1} {2} {3} )>".format(self.name, self.city, self.address, self.website)
+
+class Advantages(Base):
+
+	__tablename__ = 'advantage'
+
+	id = Column(Integer, primary_key=True)
+	global_rank = Column(Integer)
+	local_rank = Column(Integer)
+	housing = Column(Boolean)
+	student_support = Column(Text)
+
+	def __init__(self, global_rank, local_rank, housing, student_support):
+		self.global_rank = global_rank
+		self.local_rank = local_rank
+		self.housing = housing
+		self.student_support = student_support
+	def __repr__(self):
+		return "<Advantages( {0} {1} {2} )>".format(self.global_rank, self.local_rank, self.housing)
 
 class Faculty(Base):
 	'''Faculties inside each university'''
